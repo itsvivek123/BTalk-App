@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BTalk
+
+A Next.js application for taking audio notes. Record your thoughts with your voice, and they'll be transcribed into text automatically. Save and access your notes anytime.
+
+## Features
+
+- Record audio notes using your microphone
+- Speech-to-text conversion using Web Speech API
+- Store notes in Supabase database
+- View and manage your saved notes
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+ installed
+- Supabase account (for database storage)
+
+### Setup
+
+1. Clone this repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd btalk
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up Supabase:
+   - Create a new Supabase project
+   - Create a `notes` table with the following schema:
+     ```sql
+     create table notes (
+       id uuid not null primary key default uuid_generate_v4(),
+       title text not null,
+       content text not null,
+       created_at timestamp with time zone default now()
+     );
+     ```
+   - Copy your Supabase URL and anon key 
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Create a `.env.local` file in the root directory and add your Supabase credentials:
+```
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-## Learn More
+5. Start the development server
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. Open [http://localhost:3000](http://localhost:3000) in your browser
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Technologies Used
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js with TypeScript
+- Tailwind CSS for styling
+- Web Speech API for speech recognition
+- Supabase for database storage
 
-## Deploy on Vercel
+## Browser Compatibility
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The speech recognition feature uses the Web Speech API, which is currently supported in:
+- Google Chrome
+- Microsoft Edge
+- Safari
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## License
+
+MIT

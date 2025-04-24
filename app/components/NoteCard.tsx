@@ -4,9 +4,10 @@ import { Note } from '../types';
 interface NoteCardProps {
   note: Note;
   onDelete: (id: string) => void;
+  isDeleting?: boolean;
 }
 
-export default function NoteCard({ note, onDelete }: NoteCardProps) {
+export default function NoteCard({ note, onDelete, isDeleting = false }: NoteCardProps) {
   const formattedDate = new Date(note.created_at).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
@@ -21,8 +22,9 @@ export default function NoteCard({ note, onDelete }: NoteCardProps) {
         <h3 className="text-lg font-semibold">{note.title}</h3>
         <button
           onClick={() => onDelete(note.id)}
-          className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+          className={`text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 ${isDeleting ? 'opacity-50 cursor-not-allowed' : ''}`}
           aria-label="Delete note"
+          disabled={isDeleting}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
